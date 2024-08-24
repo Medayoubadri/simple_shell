@@ -27,6 +27,8 @@ int main(void)
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 
+		handle_exit(line);
+
 		pid = fork();
 		if (pid == -1)
 		{

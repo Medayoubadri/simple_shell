@@ -12,6 +12,7 @@
 void execute_command(char *command);
 void handle_error(char *command);
 char *find_command_path(char *command);
+void handle_exit(char *command);
 
 #endif /* SHELL_H */
 

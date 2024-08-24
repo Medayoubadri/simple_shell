@@ -4,7 +4,8 @@
  * find_command_path - Searches for the command in the directories in PATH
  * @command: The command to find
  *
- * Return: The full path to the command if found, otherwise NULL
+ * Return: Think of it as a lost-and-found for commands. We check each
+ *         directory in PATH, hoping your command isn't among the missing.
  */
 char *find_command_path(char *command)
 {

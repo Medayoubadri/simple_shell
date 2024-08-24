@@ -3,6 +3,9 @@
 /**
  * execute_command - Executes a command using execve
  * @command: The command to execute
+ *
+ * Description: This function is on a mission to execute your command.
+ * If it fails, the shell will self-destruct (JK, it’ll just print an error).
  */
 void execute_command(char *command)
 {
