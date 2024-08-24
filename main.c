@@ -10,13 +10,11 @@ int main(void)
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t nread;
-	pid_t pid;
-	int status;
 
 	while (1)
 	{
-		printf("($) ");
-		nread = getline(&line, &len, stdin);
+		printf("($) ");  /* Display prompt */
+		nread = getline(&line, &len, stdin);  /* Read user input */
 
 		if (nread == -1)
 		{
@@ -24,28 +22,11 @@ int main(void)
 			break;
 		}
 
+		/* Remove newline character from the end of the input */
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 
-		handle_exit(line);
-
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("Error");
-			free(line);
-			exit(EXIT_FAILURE);
-		}
-
-		if (pid == 0)
-		{
-			execute_command(line);
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			wait(&status);
-		}
+		process_command(line);
 	}
 
 	return (0);

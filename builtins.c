@@ -16,3 +16,22 @@ void handle_exit(char *command)
 	}
 }
 
+/**
+ * handle_env - Handles the env built-in command
+ * @command: The command string (should be "env")
+ *
+ * Description: Spits out all the environment variables. Sometimes,
+ *              you just need to see the mess your shell is living in.
+ */
+void handle_env(char *command)
+{
+	int i;
+
+	if (strcmp(command, "env") == 0)
+	{
+		for (i = 0; environ[i] != NULL; i++)
+		{
+			printf("%s\n", environ[i]);
+		}
+	}
+}

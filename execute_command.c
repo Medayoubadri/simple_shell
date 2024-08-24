@@ -25,7 +25,11 @@ void execute_command(char *command)
 	argv[i] = NULL;
 
 	/* Find the command in PATH */
-	cmd_path = find_command_path(argv[0]);
+	if (command[0] == '/')
+		cmd_path = command;
+	else
+		cmd_path = find_command_path(argv[0]);
+
 	if (!cmd_path)
 	{
 		handle_error(argv[0]);
