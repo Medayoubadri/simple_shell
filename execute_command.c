@@ -6,10 +6,18 @@
  */
 void execute_command(char *command)
 {
-	char *argv[2];
+	char *argv[64];
+	char *token;
+	int i = 0;
 
-	argv[0] = command;
-	argv[1] = NULL;
+	token = strtok(command, " ");
+	while (token != NULL && i < 63)
+	{
+		argv[i] = token;
+		token = strtok(NULL, " ");
+		i++;
+	}
+	argv[i]  = NULL;
 
 	if (execve(command, argv, NULL) == -1)
 		handle_error(command);
