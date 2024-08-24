@@ -7,9 +7,11 @@
 void execute_command(char *command)
 {
 	char *argv[64];
+	char *cmd_path;
 	char *token;
 	int i = 0;
 
+	/* Tokenize the command string into arguments */
 	token = strtok(command, " ");
 	while (token != NULL && i < 63)
 	{
@@ -17,9 +19,26 @@ void execute_command(char *command)
 		token = strtok(NULL, " ");
 		i++;
 	}
-	argv[i]  = NULL;
+	argv[i] = NULL;
 
-	if (execve(command, argv, NULL) == -1)
-		handle_error(command);
+	/* Find the command in PATH */
+	cmd_path = find_command_path(argv[0]);
+	if (!cmd_path)
+	{
+		handle_error(argv[0]);
+		return;
+	}
+
+	/* Execute the command */
+	if (fork() == 0)
+	{
+		if (execve(cmd_path, argv, NULL) == -1)
+			handle_error(argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		wait(NULL);
+	}
 }
 

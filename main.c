@@ -15,10 +15,10 @@ int main(void)
 
 	while (1)
 	{
-		printf("($) ");  /* Display prompt */
-		nread = getline(&line, &len, stdin);  /* Read user input */
+		printf("($) ");
+		nread = getline(&line, &len, stdin);
 
-		if (nread == -1)  /* Handle EOF (Ctrl+D) */
+		if (nread == -1)
 		{
 			free(line);
 			break;
@@ -27,7 +27,7 @@ int main(void)
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 
-		pid = fork();  /* Create child process */
+		pid = fork();
 		if (pid == -1)
 		{
 			perror("Error");
