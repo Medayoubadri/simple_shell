@@ -22,6 +22,7 @@ ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
 
 int count_the_mess(char *str, const char *delim);
 char **tokey_slicer(char *command, const char *delim);
+void free_tokens(char **tokens);
 
 #endif /* SHELL_H */
 
