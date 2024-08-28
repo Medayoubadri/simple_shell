@@ -20,5 +20,8 @@ void handle_env(char *command);
 void process_command(char *line);
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
 
+int count_the_mess(char *str, const char *delim);
+char **tokey_slicer(char *command, const char *delim);
+
 #endif /* SHELL_H */
 
