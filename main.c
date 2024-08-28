@@ -14,7 +14,8 @@ int main(void)
 	while (1)
 	{
 		printf("($) ");  /* Display prompt */
-		nread = getline(&line, &len, stdin);  /* Read user input */
+		fflush(stdout); /* Ensure the prompt is displayed immediately */
+		nread = my_getline(&line, &len, stdin);  /* Read user input */
 
 		if (nread == -1)
 		{
@@ -25,6 +26,9 @@ int main(void)
 		/* Remove newline character from the end of the input */
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
+
+		if (line[0] == '\0')
+			continue;
 
 		process_command(line);
 	}

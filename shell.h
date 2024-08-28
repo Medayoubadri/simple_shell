@@ -18,6 +18,7 @@ char *find_command_path(char *command);
 void handle_exit(char *command);
 void handle_env(char *command);
 void process_command(char *line);
+ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif /* SHELL_H */
 

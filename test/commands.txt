@@ -1,0 +1,5 @@
+/bin/ls
+/bin/echo "Running in non-interactive mode"
+env
+exit
+
