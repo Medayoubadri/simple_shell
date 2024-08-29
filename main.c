@@ -20,6 +20,7 @@ int main(void)
 			if (feof(stdin))
 			{
 				free(command);
+				write(STDOUT_FILENO, "\n", 1); /* Add a new line on exit */
 				exit(0); /* Ctrl+D was pressed */
 			}
 			else
@@ -34,6 +35,10 @@ int main(void)
 		if (command[nread - 1] == '\n')
 			command[nread - 1] = '\0';
 
+		/* Skip empty lines */
+		if (strlen(command) == 0)
+			continue;
+
 		execute_command(command);
 	}
 
@@ -46,6 +51,6 @@ int main(void)
  */
 void prompt(void)
 {
-	write(STDOUT_FILENO, "($) ", 4);
+	write(STDOUT_FILENO, "$ ", 2);
 }
 
