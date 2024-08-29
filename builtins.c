@@ -110,25 +110,25 @@ void handle_unsetenv(char *command)
  */
 void handle_echo(char *command)
 {
-    char **args = tokey_slicer(command, " ");
-    char *value;
-    int i;
+	char **args = tokey_slicer(command, " ");
+	char *value;
+	int i;
 
-    for (i = 1; args[i]; i++)
-    {
-        if (args[i][0] == '$')
-        {
-            value = getenv(args[i] + 1);
-            if (value)
-                printf("%s ", value);
-            else
-                printf("%s ", args[i]);
-        }
-        else
-        {
-            printf("%s ", args[i]);
-        }
-    }
-    printf("\n");
-    free_pointer_array(args);
+	for (i = 1; args[i]; i++)
+	{
+		if (args[i][0] == '$')
+		{
+			value = getenv(args[i] + 1);
+			if (value)
+				printf("%s ", value);
+			else
+				printf("%s ", args[i]);
+		}
+		else
+		{
+			printf("%s ", args[i]);
+		}
+	}
+	printf("\n");
+	free_pointer_array(args);
 }

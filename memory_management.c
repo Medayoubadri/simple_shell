@@ -55,9 +55,9 @@ void *safe_realloc(void *ptr, size_t new_size)
 	if (!new_ptr)
 	{
 		free(ptr);  /* Prevent memory leak if realloc fails */
-		return NULL;
+		return (NULL);
 	}
 
-	return new_ptr;
+	return (new_ptr);
 }
 
