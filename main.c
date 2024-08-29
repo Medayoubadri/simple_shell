@@ -13,15 +13,15 @@ int main(void)
 
 	while (1)
 	{
+		free_and_nullify(&line);
+
 		printf("($) ");  /* Display prompt */
 		fflush(stdout); /* Ensure the prompt is displayed immediately */
 		nread = my_getline(&line, &len, stdin);  /* Read user input */
 
+		/* Handle EOF (Ctrl+D) */
 		if (nread == -1)
-		{
-			free(line);
 			break;
-		}
 
 		/* Remove newline character from the end of the input */
 		if (line[nread - 1] == '\n')
@@ -33,6 +33,7 @@ int main(void)
 		process_command(line);
 	}
 
+	free_and_nullify(&line);
 	return (0);
 }
 

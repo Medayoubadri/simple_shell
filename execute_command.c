@@ -7,29 +7,16 @@
  */
 void run_command(char *cmd_path, char **argv)
 {
-	if (fork() == 0)  /* Child process */
+	if (fork() == 0)
 	{
 		if (execve(cmd_path, argv, NULL) == -1)
 			handle_error(argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	else  /* Parent process */
+	else
 	{
-		wait(NULL);  /* Wait for the child to finish */
+		wait(NULL);
 	}
-}
-
-/**
- * free_tokens - Frees the memory allocated for tokens
- * @tokens: The array of tokens to free
- */
-void free_tokens(char **tokens)
-{
-	int i;
-
-	for (i = 0; tokens[i]; i++)
-		free(tokens[i]);
-	free(tokens);
 }
 
 /**
@@ -49,7 +36,7 @@ void execute_command(char *command)
 	if (!argv || !argv[0])
 	{
 		if (argv)
-			free_tokens(argv);
+			free_pointer_array(argv);
 		return;
 	}
 
@@ -59,7 +46,7 @@ void execute_command(char *command)
 	if (!cmd_path)
 	{
 		handle_error(argv[0]);
-		free_tokens(argv);
+		free_pointer_array(argv);
 		return;
 	}
 
@@ -67,6 +54,6 @@ void execute_command(char *command)
 	run_command(cmd_path, argv);
 
 	/* Free allocated memory for tokens */
-	free_tokens(argv);
+	free_pointer_array(argv);
 }
 

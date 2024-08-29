@@ -14,12 +14,12 @@ int count_the_mess(char *str, const char *delim)
 
 	while (*temp)
 	{
-		while (*temp && strchr(delim, *temp)) /* Skip delimiters */
+		while (*temp && strchr(delim, *temp))
 			temp++;
 		if (*temp)
 		{
 			count++;
-			while (*temp && !strchr(delim, *temp)) /* Skip token */
+			while (*temp && !strchr(delim, *temp))
 				temp++;
 		}
 	}
@@ -45,12 +45,12 @@ char **tokey_slicer(char *command, const char *delim)
 
 	while (*command)
 	{
-		while (*command && strchr(delim, *command)) /* Skip delimiters */
+		while (*command && strchr(delim, *command))
 			command++;
 		if (*command)
 		{
 			token = command;
-			while (*command && !strchr(delim, *command)) /* Find end of token */
+			while (*command && !strchr(delim, *command))
 				command++;
 			if (*command)
 			{
@@ -64,3 +64,11 @@ char **tokey_slicer(char *command, const char *delim)
 	return (tokens);
 }
 
+/**
+ * free_tokens - Frees the memory allocated for tokens
+ * @tokens: The array of tokens to free
+ */
+void free_tokens(char **tokens)
+{
+	free_pointer_array(tokens);
+}
