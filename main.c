@@ -11,6 +11,8 @@ int main(void)
 	char **args;
 	int status = 1;
 	int command_count = 0;
+	int exit_status = 0;
+	int command_status;
 
 	while (status)
 	{
@@ -21,10 +23,19 @@ int main(void)
 			break;
 		args = parse_input(input);
 		command_count++;
-		status = execute_command(args, command_count);
+		if (args!= NULL)
+		{
+			command_status = execute_command(args, command_count);
+			if (command_status != 1)
+			{
+				exit_status = command_status;
+			}
+
+			status = command_status;
+		}
 		free(input);
 		free(args);
 	}
 
-	return (0);
+	_exit(exit_status);
 }

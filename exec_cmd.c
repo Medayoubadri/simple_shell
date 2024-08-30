@@ -9,13 +9,17 @@
 int execute_command(char **args, int command_count)
 {
 	char *command_path;
+	int builtin_status;
 
 	if (args == NULL || args[0] == NULL)
 		return (1);
 
 	/* Handle built-in commands */
-	if (handle_builtin(args) == 0)
+	builtin_status = handle_builtin(args);
+	if (builtin_status == 0)
 		return (0);
+	else if (builtin_status == 1)
+		return (1);
 
 	/* If command contains a '/', check if it's a valid path */
 	if (strchr(args[0], '/') != NULL)

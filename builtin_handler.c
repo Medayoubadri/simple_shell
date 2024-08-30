@@ -11,7 +11,7 @@ int handle_builtin(char **args)
 {
 	if (strcmp(args[0], "exit") == 0)
 	{
-		exit(0);  /* Exits the shell */
+		return (0);  /* Exits the shell */
 	}
 
 	if (strcmp(args[0], "env") == 0)
@@ -21,7 +21,7 @@ int handle_builtin(char **args)
 	}
 
 	/* Add more built-ins as needed */
-	return (1);
+	return (-1);
 }
 
 /**
