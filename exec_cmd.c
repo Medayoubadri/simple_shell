@@ -88,13 +88,14 @@ void fork_and_execute(char *command_path, char **args, int command_count)
 {
 	pid_t pid = fork();
 	int status;
+	int exit_status;
 
 	if (pid == 0)
 	{
 		if (execve(command_path, args, NULL) == -1)
 		{
 			print_error(args[0], errno, command_count);
-			exit(EXIT_FAILURE);
+			exit(errno);
 		}
 	}
 	else if (pid < 0)
@@ -104,5 +105,14 @@ void fork_and_execute(char *command_path, char **args, int command_count)
 	else
 	{
 		waitpid(pid, &status, 0);
+
+		if (WIFEXITED(status))
+		{
+			exit_status = WEXITSTATUS(status);
+			if (exit_status != 0)
+			{
+				_exit(exit_status);
+			}
+		}
 	}
 }
