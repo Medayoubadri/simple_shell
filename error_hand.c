@@ -7,15 +7,16 @@
  */
 void print_error(char *command, int error_code)
 {
-	char *error_msg;
-
 	if (error_code == ENOENT)
-		error_msg = "No such file or directory";
+	{
+		fprintf(stderr, "./hsh: 1: %s: not found\n", command);
+	}
 	else if (error_code == EACCES)
-		error_msg = "Permission denied";
+	{
+		fprintf(stderr, "./hsh: %s: Permission denied\n", command);
+	}
 	else
-		error_msg = "An unknown error occurred";
-
-	fprintf(stderr, "./hsh: %s: %s\n", command, error_msg);
+	{
+		fprintf(stderr, "./hsh: %s: An unknown error occurred\n", command);
+	}
 }
-

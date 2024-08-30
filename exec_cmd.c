@@ -10,16 +10,35 @@ int execute_command(char **args)
 {
 	char *command_path;
 
+	if (args == NULL || args[0] == NULL)
+		return (1);
+
 	/* Handle built-in commands */
 	if (handle_builtin(args) == 0)
 		return (0);
 
-	/* Resolve the command path */
-	command_path = resolve_command(args[0]);
-	if (!command_path)
+	/* If command contains a '/', check if it's a valid path */
+	if (strchr(args[0], '/') != NULL)
 	{
-		print_error(args[0], ENOENT);
-		return (1);
+		if (access(args[0], X_OK) == 0)
+		{
+			command_path = args[0];
+		}
+		else
+		{
+			print_error(args[0], ENOENT);
+			return (127);
+		}
+	}
+	else
+	{
+		/* Otherwise, search in the PATH */
+		command_path = find_in_path(args[0]);
+		if (!command_path)
+		{
+			print_error(args[0], ENOENT);
+			return (127);
+		}
 	}
 
 	/* Fork and execute the command */
