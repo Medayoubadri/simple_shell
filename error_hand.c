@@ -5,18 +5,18 @@
  * @command: The command that caused the error.
  * @error_code: The error code (e.g., ENOENT for file not found).
  */
-void print_error(char *command, int error_code)
+void print_error(char *command, int error_code, int command_count)
 {
 	if (error_code == ENOENT)
 	{
-		fprintf(stderr, "./hsh: 1: %s: not found\n", command);
+		fprintf(stderr, "./hsh: %d: %s: not found\n", command_count, command);
 	}
 	else if (error_code == EACCES)
 	{
-		fprintf(stderr, "./hsh: %s: Permission denied\n", command);
+		fprintf(stderr, "./hsh: %d: %s: Permission denied\n", command_count, command);
 	}
 	else
 	{
-		fprintf(stderr, "./hsh: %s: An unknown error occurred\n", command);
+		fprintf(stderr, "./hsh: %d: %s: An unknown error occurred\n", command_count, command);
 	}
 }

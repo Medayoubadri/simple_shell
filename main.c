@@ -10,33 +10,21 @@ int main(void)
 	char *input;
 	char **args;
 	int status = 1;
+	int command_count = 0;
 
 	while (status)
 	{
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
-
 		input = read_input();
 		if (input == NULL)
-		{
-			if (isatty(STDIN_FILENO))
-				printf("\n");
 			break;
-		}
-
 		args = parse_input(input);
-		if (args == NULL)
-		{
-			free(input);
-			continue;
-		}
-
-		status = execute_command(args);
-
+		command_count++;
+		status = execute_command(args, command_count);
 		free(input);
 		free(args);
 	}
 
 	return (0);
 }
-
