@@ -8,10 +8,10 @@
 char *read_input(void)
 {
 	char *input = NULL;
-	size_t bufsize = 0;
 	ssize_t nread;
+	size_t len = 0;
 
-	nread = getline(&input, &bufsize, stdin);
+	nread = getline(&input, &len, stdin);
 	if (nread == -1)
 	{
 		free(input);
@@ -22,6 +22,23 @@ char *read_input(void)
 		input[nread - 1] = '\0';
 
 	return (input);
+}
+
+char *trim_whitespace(char *str)
+{
+	char *end;
+
+	while (*str == ' ') str++;
+
+	if (*str ==0)
+		return str;
+
+	end = str + strlen(str) - 1;
+	while (end > str && *end == ' ') end--;
+
+	*(end + 1) = '\0';
+
+	return str;
 }
 
 /**
@@ -40,6 +57,14 @@ char **parse_input(char *input)
 	{
 		perror("allocation error");
 		exit(EXIT_FAILURE);
+	}
+
+	input = trim_whitespace(input);
+
+	if (strlen(input) == 0)
+	{
+		free(tokens);
+		return NULL;
 	}
 
 	token = strtok(input, " ");
