@@ -16,25 +16,11 @@ int handle_builtin(char **args)
 
 	if (strcmp(args[0], "env") == 0)
 	{
-		print_env();
+		print_env(args);
 		return (1);
 	}
 
 	/* Add more built-ins as needed */
 	return (-1);
-}
-
-/**
- * print_env - Prints the current environment.
- */
-void print_env(void)
-{
-	char **env = environ;
-
-	while (*env)
-	{
-		printf("%s\n", *env);
-		env++;
-	}
 }
 
