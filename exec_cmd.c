@@ -3,6 +3,7 @@
 /**
  * execute_command - Executes a command, checking PATH if necessary.
  * @args: The arguments array.
+ * @command_count: The count of commands executed so far.
  *
  * Return: 1 if the shell should continue running, 0 if it should terminate.
  */
@@ -10,6 +11,7 @@ int execute_command(char **args, int command_count)
 {
 	char *command_path;
 	int builtin_status;
+	int exec_status;
 
 	if (args == NULL || args[0] == NULL)
 		return (1);
@@ -21,37 +23,21 @@ int execute_command(char **args, int command_count)
 	else if (builtin_status == 1)
 		return (1);
 
-	/* If command contains a '/', check if it's a valid path */
-	if (strchr(args[0], '/') != NULL)
+	/* Resolve the command path */
+	command_path = resolve_command(args[0]);
+	if (!command_path)
 	{
-		if (access(args[0], X_OK) == 0)
-		{
-			command_path = args[0];
-		}
-		else
-		{
-			print_error(args[0], ENOENT, command_count);
-			return (127);
-		}
-	}
-	else
-	{
-		/* Otherwise, search in the PATH */
-		command_path = find_in_path(args[0]);
-		if (!command_path)
-		{
-			print_error(args[0], ENOENT, command_count);
-			return (127);
-		}
+		print_error(args[0], ENOENT, command_count);
+		return (127);
 	}
 
 	/* Fork and execute the command */
-	fork_and_execute(command_path, args, command_count);
+	exec_status = fork_and_execute(command_path, args, command_count);
 
 	if (command_path != args[0])
 		free(command_path);
 
-	return (1);
+	return ((exec_status == 0 || exec_status == 127) ? 1 : (exec_status));
 }
 
 /**
@@ -83,15 +69,20 @@ char *resolve_command(char *command)
  * fork_and_execute - Forks and executes a command.
  * @command_path: The resolved command path.
  * @args: The arguments array.
+ * @command_count: The count of commands executed so far.
+ *
+ * Return: The exit status of the executed command.
  */
-void fork_and_execute(char *command_path, char **args, int command_count)
+int fork_and_execute(char *command_path, char **args, int command_count)
 {
-	pid_t pid = fork();
+	pid_t pid;
 	int status;
-	int exit_status;
+	int exit_status = 0;
 
+	pid = fork();
 	if (pid == 0)
 	{
+		/* In child process */
 		if (execve(command_path, args, NULL) == -1)
 		{
 			print_error(args[0], errno, command_count);
@@ -100,19 +91,22 @@ void fork_and_execute(char *command_path, char **args, int command_count)
 	}
 	else if (pid < 0)
 	{
+		/* Fork failed */
 		perror("fork failed");
+		return (1);
 	}
 	else
 	{
+		/* In parent process */
 		waitpid(pid, &status, 0);
 
 		if (WIFEXITED(status))
 		{
 			exit_status = WEXITSTATUS(status);
-			if (exit_status != 0)
-			{
-				_exit(exit_status);
-			}
 		}
 	}
+
+	/* Return the exit status to the shell, but don't cause the shell to exit */
+	return (exit_status);
 }
+

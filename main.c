@@ -1,5 +1,12 @@
 #include "shell.h"
 
+void free_tokens(char **tokens)
+{
+	if (tokens != NULL)
+	{
+		free(tokens);
+	}
+}
 /**
  * main - Entry point of the simple shell
  *
@@ -23,7 +30,7 @@ int main(void)
 			break;
 		args = parse_input(input);
 		command_count++;
-		if (args!= NULL)
+		if (args != NULL)
 		{
 			command_status = execute_command(args, command_count);
 			if (command_status != 1)
@@ -32,9 +39,9 @@ int main(void)
 			}
 
 			status = command_status;
+			free_tokens(args);
 		}
 		free(input);
-		free(args);
 	}
 
 	_exit(exit_status);

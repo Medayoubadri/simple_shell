@@ -57,43 +57,13 @@ char *trim_whitespace(char *str)
  */
 char **parse_input(char *input)
 {
-	int bufsize = 64, i = 0;
-	char **tokens = malloc(bufsize * sizeof(char *));
-	char *token;
-
-	if (!tokens)
-	{
-		perror("allocation error");
-		exit(EXIT_FAILURE);
-	}
+	int bufsize = 64;
 
 	input = trim_whitespace(input);
 
 	if (strlen(input) == 0)
-	{
-		free(tokens);
 		return (NULL);
-	}
 
-	token = strtok(input, " ");
-	while (token != NULL)
-	{
-		tokens[i++] = token;
-
-		if (i >= bufsize)
-		{
-			bufsize += 64;
-			tokens = realloc(tokens, bufsize * sizeof(char *));
-			if (!tokens)
-			{
-				perror("allocation error");
-				exit(EXIT_FAILURE);
-			}
-		}
-
-		token = strtok(NULL, " ");
-	}
-	tokens[i] = NULL;
-	return (tokens);
+	return (tokenize_input(input, bufsize));
 }
 
