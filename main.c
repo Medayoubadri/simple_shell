@@ -21,6 +21,11 @@ int main(void)
 	int exit_status = 0;
 	int command_status;
 
+	if (getenv("LANG") == NULL)
+		setenv("LANG", "en_US.UTF-8", 1);
+	if (getenv("LC_COLLATE") == NULL)
+		setenv("LC_COLLATE", "en_US.UTF-8", 1);
+
 	while (status)
 	{
 		if (isatty(STDIN_FILENO))

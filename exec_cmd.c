@@ -87,7 +87,7 @@ int fork_and_execute(char *command_path, char **args, int command_count)
 	if (pid == 0)
 	{
 		/* In child process */
-		if (execve(command_path, args, NULL) == -1)
+		if (execve(command_path, args, environ) == -1)
 		{
 			print_error(args[0], errno, command_count);
 			exit(errno);
