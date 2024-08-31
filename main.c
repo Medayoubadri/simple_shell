@@ -33,12 +33,16 @@ int main(void)
 		if (args != NULL)
 		{
 			command_status = execute_command(args, command_count);
-			if (command_status != 1)
+
+			if (strcmp(args[0], "exit") == 0)
+			{
+				status = 0;
+			}
+			else
 			{
 				exit_status = command_status;
 			}
 
-			status = command_status;
 			free_tokens(args);
 		}
 		free(input);

@@ -19,9 +19,13 @@ int execute_command(char **args, int command_count)
 	/* Handle built-in commands */
 	builtin_status = handle_builtin(args);
 	if (builtin_status == 0)
+	{
 		return (0);
+	}
 	else if (builtin_status == 1)
+	{
 		return (1);
+	}
 
 	/* Resolve the command path */
 	command_path = resolve_command(args[0]);
@@ -37,7 +41,7 @@ int execute_command(char **args, int command_count)
 	if (command_path != args[0])
 		free(command_path);
 
-	return ((exec_status == 0 || exec_status == 127) ? 1 : (exec_status));
+	return (exec_status);
 }
 
 /**
@@ -77,7 +81,7 @@ int fork_and_execute(char *command_path, char **args, int command_count)
 {
 	pid_t pid;
 	int status;
-	int exit_status = 0;
+	int exit_status;
 
 	pid = fork();
 	if (pid == 0)
