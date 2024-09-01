@@ -19,7 +19,7 @@ char *find_in_path(char *command)
 	if (!path_copy)
 		return (NULL);
 
-	token = strtok(path_copy, ":");
+	token = custom_strtok(path_copy, ":");
 	while (token)
 	{
 		length = strlen(token) + strlen(command) + 2;
@@ -37,7 +37,7 @@ char *find_in_path(char *command)
 			return (full_path);
 		}
 		free(full_path);
-		token = strtok(NULL, ":");
+		token = custom_strtok(NULL, ":");
 	}
 
 	free(path_copy);

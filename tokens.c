@@ -1,6 +1,43 @@
 #include "shell.h"
 
 /**
+ * custom_strtok - Custom tokenizer function to split a string into tokens.
+ * @str: The input string.
+ * @delim: The delimiter characters.
+ *
+ * Return: Pointer to the next token, or NULL if no more tokens are found.
+ */
+char *custom_strtok(char *str, const char *delim)
+{
+	static char *next_token;
+	char *current_token;
+
+	if (str != NULL)
+		next_token = str;
+
+	if (next_token == NULL || *next_token == '\0')
+		return (NULL);
+
+	current_token = next_token;
+
+	while (*next_token != '\0')
+	{
+		if (strchr(delim, *next_token) != NULL)
+		{
+			*next_token = '\0';
+			next_token++;
+			break;
+		}
+		next_token++;
+	}
+
+	if (*current_token == '\0')
+		return (NULL);
+
+	return (current_token);
+}
+
+/**
  * tokenize_input - Tokenizes the input string into arguments.
  * @input: The input string.
  * @bufsize: Initial buffer size for tokens array.
@@ -19,7 +56,7 @@ char **tokenize_input(char *input, int bufsize)
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(input, " ");
+	token = custom_strtok(input, " ");
 	while (token != NULL)
 	{
 		tokens[i++] = token;
@@ -27,7 +64,7 @@ char **tokenize_input(char *input, int bufsize)
 		{
 			tokens = resize_tokens_array(tokens, &bufsize);
 		}
-		token = strtok(NULL, " ");
+		token = custom_strtok(NULL, " ");
 	}
 	tokens[i] = NULL;
 	return (tokens);

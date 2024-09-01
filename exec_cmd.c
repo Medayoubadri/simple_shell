@@ -14,9 +14,10 @@ int execute_command(char **args, int command_count)
 	int exec_status;
 
 	if (args == NULL || args[0] == NULL)
+	{
 		return (1);
+	}
 
-	/* Handle built-in commands */
 	builtin_status = handle_builtin(args);
 	if (builtin_status == 0)
 	{
@@ -27,7 +28,6 @@ int execute_command(char **args, int command_count)
 		return (1);
 	}
 
-	/* Resolve the command path */
 	command_path = resolve_command(args[0]);
 	if (!command_path)
 	{
@@ -35,7 +35,6 @@ int execute_command(char **args, int command_count)
 		return (127);
 	}
 
-	/* Fork and execute the command */
 	exec_status = fork_and_execute(command_path, args, command_count);
 
 	if (command_path != args[0])
@@ -86,7 +85,6 @@ int fork_and_execute(char *command_path, char **args, int command_count)
 	pid = fork();
 	if (pid == 0)
 	{
-		/* In child process */
 		if (execve(command_path, args, environ) == -1)
 		{
 			print_error(args[0], errno, command_count);
@@ -95,13 +93,11 @@ int fork_and_execute(char *command_path, char **args, int command_count)
 	}
 	else if (pid < 0)
 	{
-		/* Fork failed */
 		perror("fork failed");
 		return (1);
 	}
 	else
 	{
-		/* In parent process */
 		waitpid(pid, &status, 0);
 
 		if (WIFEXITED(status))
@@ -110,7 +106,6 @@ int fork_and_execute(char *command_path, char **args, int command_count)
 		}
 	}
 
-	/* Return the exit status to the shell, but don't cause the shell to exit */
 	return (exit_status);
 }
 

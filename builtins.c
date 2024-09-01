@@ -17,15 +17,16 @@ int shell_exit(char **args)
  */
 int print_env(char **args)
 {
-    char **env = environ;
+	char **env = environ;
 
-    (void)args; /* Avoid unused parameter warning */
+	(void)args;
 
-    while (*env)
-    {
-        printf("%s\n", *env);
-        env++;
-    }
+	while (*env)
+	{
+		printf("%s\n", *env);
+		env++;
+	}
 
-    return (1);
+	return (1);
 }
+

@@ -22,9 +22,9 @@ void print_error(char *command, int error_code, int command_count);
 int print_env(char **args);
 
 char *find_in_path(char *command);
-ssize_t getline_custom(char **lineptr, size_t *n, FILE *stream);
 char **tokenize_input(char *input, int bufsize);
 char **resize_tokens_array(char **tokens, int *bufsize);
+char *custom_strtok(char *str, const char *delim);
 
 #endif /* SHELL_H */
 
