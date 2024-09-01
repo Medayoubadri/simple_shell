@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <errno.h>
 #include <ctype.h>
+#include <limits.h>
 
 extern char **environ;
 
@@ -26,6 +27,9 @@ char *find_in_path(char *command);
 char **tokenize_input(char *input, int bufsize);
 char **resize_tokens_array(char **tokens, int *bufsize);
 char *custom_strtok(char *str, const char *delim);
+
+int shell_cd(char **args);
+
 
 #endif /* SHELL_H */
 

@@ -20,6 +20,12 @@ int handle_builtin(char **args, int *exit_status, int command_count)
 		return (1);
 	}
 
+	if (strcmp(args[0], "cd") == 0)
+	{
+		*exit_status = shell_cd(args);
+		return (1);
+	}
+
 	return (-1);
 }
 
