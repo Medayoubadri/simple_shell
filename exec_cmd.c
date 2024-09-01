@@ -18,7 +18,7 @@ int execute_command(char **args, int command_count, int *exit_status)
 		return (1);
 	}
 
-	builtin_status = handle_builtin(args, exit_status);
+	builtin_status = handle_builtin(args, exit_status, command_count);
 	if (builtin_status == 0)
 	{
 		return (0);

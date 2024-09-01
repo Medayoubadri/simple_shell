@@ -15,10 +15,10 @@ extern char **environ;
 char *read_input(void);
 char **parse_input(char *input);
 int execute_command(char **args, int command_count, int *exit_status);
-int handle_builtin(char **args, int *exit_status);
+int handle_builtin(char **args, int *exit_status, int command_count);
 char *resolve_command(char *command);
 int fork_and_execute(char *command_path, char **args, int command_count);
-int shell_exit(char **args, int *exit_status);
+int shell_exit(char **args, int *exit_status, int command_count);
 void print_error(char *command, int error_code, int command_count);
 int print_env(char **args);
 

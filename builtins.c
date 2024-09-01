@@ -6,7 +6,7 @@
  *
  * Return: 0 to terminate the shell.
  */
-int shell_exit(char **args, int *exit_status)
+int shell_exit(char **args, int *exit_status, int command_count)
 {
 	int i;
 
@@ -16,7 +16,8 @@ int shell_exit(char **args, int *exit_status)
 		{
 			if (!isdigit(args[1][i]))
 			{
-				fprintf(stderr, "exit: Illegal number: %s\n", args[1]);
+				fprintf(stderr, "./hsh: %d: exit: Illegal number: %s\n", command_count, args[1]);
+				*exit_status = 2;
 				return (1);
 			}
 		}
