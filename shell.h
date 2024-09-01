@@ -8,16 +8,17 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <ctype.h>
 
 extern char **environ;
 
 char *read_input(void);
 char **parse_input(char *input);
-int execute_command(char **args, int command_count);
-int handle_builtin(char **args);
+int execute_command(char **args, int command_count, int *exit_status);
+int handle_builtin(char **args, int *exit_status);
 char *resolve_command(char *command);
 int fork_and_execute(char *command_path, char **args, int command_count);
-int shell_exit(char **args);
+int shell_exit(char **args, int *exit_status);
 void print_error(char *command, int error_code, int command_count);
 int print_env(char **args);
 

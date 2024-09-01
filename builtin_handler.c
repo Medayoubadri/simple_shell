@@ -7,11 +7,11 @@
  * Return: 0 if a built-in command was executed and the shell should exit,
  *         1 if no built-in was found or executed.
  */
-int handle_builtin(char **args)
+int handle_builtin(char **args, int *exit_status)
 {
 	if (strcmp(args[0], "exit") == 0)
 	{
-		return (0);  /* Exits the shell */
+		return (shell_exit(args, exit_status));
 	}
 
 	if (strcmp(args[0], "env") == 0)
@@ -20,7 +20,6 @@ int handle_builtin(char **args)
 		return (1);
 	}
 
-	/* Add more built-ins as needed */
 	return (-1);
 }
 

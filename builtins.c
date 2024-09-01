@@ -6,10 +6,24 @@
  *
  * Return: 0 to terminate the shell.
  */
-int shell_exit(char **args)
+int shell_exit(char **args, int *exit_status)
 {
-	(void)args; /* Avoid unused parameter warning */
-	return (0);
+	int i;
+
+	if (args[1] != NULL)
+	{
+		for (i = 0; args[1][i] != '\0'; i++)
+		{
+			if (!isdigit(args[1][i]))
+			{
+				fprintf(stderr, "exit: Illegal number: %s\n", args[1]);
+				return (1);
+			}
+		}
+		*exit_status = atoi(args[1]);
+	}
+
+	_exit(*exit_status);
 }
 
 /**

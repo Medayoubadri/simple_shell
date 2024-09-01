@@ -7,7 +7,7 @@
  *
  * Return: 1 if the shell should continue running, 0 if it should terminate.
  */
-int execute_command(char **args, int command_count)
+int execute_command(char **args, int command_count, int *exit_status)
 {
 	char *command_path;
 	int builtin_status;
@@ -18,7 +18,7 @@ int execute_command(char **args, int command_count)
 		return (1);
 	}
 
-	builtin_status = handle_builtin(args);
+	builtin_status = handle_builtin(args, exit_status);
 	if (builtin_status == 0)
 	{
 		return (0);
@@ -32,7 +32,8 @@ int execute_command(char **args, int command_count)
 	if (!command_path)
 	{
 		print_error(args[0], ENOENT, command_count);
-		return (127);
+		*exit_status = 127;
+		return (*exit_status);
 	}
 
 	exec_status = fork_and_execute(command_path, args, command_count);
@@ -40,7 +41,8 @@ int execute_command(char **args, int command_count)
 	if (command_path != args[0])
 		free(command_path);
 
-	return (exec_status);
+	*exit_status = exec_status;
+	return (*exit_status);
 }
 
 /**

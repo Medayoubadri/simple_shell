@@ -37,7 +37,7 @@ int main(void)
 		command_count++;
 		if (args != NULL)
 		{
-			command_status = execute_command(args, command_count);
+			command_status = execute_command(args, command_count, &exit_status);
 
 			if (strcmp(args[0], "exit") == 0)
 			{
